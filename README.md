@@ -18,6 +18,8 @@ token-optimization/
   token-learning-outcomes.md       the outcomes, where they came from, and the facts that age
   presentation/                    5 decks, one per tier
   hands-on/                        5 Markdown lab guides + their landing page
+  solutions/                       reference answers for every lab - look whenever you want
+  trainer/                         delivery map, timings, room map, the deck check
   assets/                          one theme file, one slide runner
 ```
 
@@ -59,6 +61,8 @@ Print to PDF straight from the browser.
   for exactly this reason, and it says so on the slide.
 - **Two instruments, never in the same row.** `ctxmeter` proves the cut; the billing page proves the
   money. Conflating them is the fastest way to lose a finance audience.
+- **Solutions ship with the module.** [`solutions/`](solutions/README.md) has a reference answer for
+  every lab, including the exact cascade sweep and audit numbers.
 - **Measured, not scored.** No pass marks. Each lab records a number before and after and ends with a
   committed `lab-N-record.md`.
 - **Labs 0 and 2 need no assistant and no network**, so they work on a locked-down machine and give

@@ -36,6 +36,9 @@ carry on. Every other measurement in this module is deliberately independent of 
 | [3](lab-3-the-40-percent-audit.md) | 3 | 19 min | Four cuts, re-checking the answer after each | Tokens and correctness at every cut |
 | [4](lab-4-delete-a-model-call.md) | 4 | 12 min | Replace the counting half of a prompt with Python | Tokens, time, and whether three runs agree |
 
+**[`../solutions/`](../solutions/README.md) has a reference answer for every lab**, including the
+full threshold sweep for Lab 2 and the four cut numbers for Lab 3. Look whenever you want.
+
 ## Getting started
 
 ```bash

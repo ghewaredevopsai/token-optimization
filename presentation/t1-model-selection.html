@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Token Optimization Tier 1 &mdash; Model Selection</title>
+<link rel="stylesheet" href="../assets/te-theme.css">
+</head>
+<body data-deck="Tokens &middot; T1" data-home="../index.html"
+      data-prev="t0-what-a-request-costs.html" data-prev-label="Tier 0"
+      data-next="t2-routing-cascades.html" data-next-label="Tier 2 - Routing">
+<div id="viewport"><div id="stage">
+
+<!-- 1 ---------------------------------------------------------------- -->
+<section class="slide title">
+  <div class="wrap">
+    <span class="tier">Tier 1</span>
+    <h1>Choosing the model,<br>by use case</h1>
+    <p class="sub">Six criteria, three archetypes, and a way of deciding that survives the roster
+      changing next month &mdash; because it places the task, not the model.</p>
+    <p class="meta">
+      <span>5 slides &middot; ~10 minutes</span>
+      <span>Lab 1 follows &middot; one matrix row you would defend</span>
+      <span>Trainer: Rajesh Gheware</span>
+    </p>
+  </div>
+</section>
+
+<!-- 2 ---------------------------------------------------------------- -->
+<section class="slide">
+  <header><div class="hgroup">
+    <p class="eyebrow">The grid</p>
+    <h2>Six criteria. Note what is shaded and what is not.</h2>
+  </div></header>
+  <div class="body">
+    <svg class="dg fill" viewBox="0 0 1180 270" style="max-height:40vh">
+      <text x="480" y="24" text-anchor="middle" class="t-acc" font-size="18.5" font-weight="700">fast</text>
+      <text x="700" y="24" text-anchor="middle" class="t-acc" font-size="18.5" font-weight="700">default</text>
+      <text x="920" y="24" text-anchor="middle" class="t-acc" font-size="18.5" font-weight="700">reasoning</text>
+
+      <text x="10" y="62" font-size="17">quality on hard work</text>
+      <rect class="box-r" x="380" y="42" width="200" height="28" rx="3"/>
+      <rect class="box"   x="600" y="42" width="200" height="28" rx="3"/>
+      <rect class="box-g" x="820" y="42" width="200" height="28" rx="3"/>
+
+      <text x="10" y="102" font-size="17">latency</text>
+      <rect class="box-g" x="380" y="82" width="200" height="28" rx="3"/>
+      <rect class="box"   x="600" y="82" width="200" height="28" rx="3"/>
+      <rect class="box-r" x="820" y="82" width="200" height="28" rx="3"/>
+
+      <text x="10" y="142" font-size="17">cost per call</text>
+      <rect class="box-g" x="380" y="122" width="200" height="28" rx="3"/>
+      <rect class="box"   x="600" y="122" width="200" height="28" rx="3"/>
+      <rect class="box-r" x="820" y="122" width="200" height="28" rx="3"/>
+
+      <text x="10" y="182" font-size="17">context window</text>
+      <rect class="box"   x="380" y="162" width="200" height="28" rx="3"/>
+      <rect class="box-g" x="600" y="162" width="200" height="28" rx="3"/>
+      <rect class="box-g" x="820" y="162" width="200" height="28" rx="3"/>
+
+      <text x="10" y="222" font-size="17">tool-calling consistency</text>
+      <rect class="box"   x="380" y="202" width="200" height="28" rx="3"/>
+      <rect class="box-g" x="600" y="202" width="200" height="28" rx="3"/>
+      <rect class="box-g" x="820" y="202" width="200" height="28" rx="3"/>
+
+      <text x="10" y="262" class="t-blue" font-size="17">data residency</text>
+      <rect class="box-b" x="380" y="242" width="640" height="28" rx="3"/>
+      <text x="700" y="262" text-anchor="middle" class="t-blue" font-size="16.9">not a property of the tier at all &mdash; it is a property of the vendor and the contract</text>
+
+      <text x="1040" y="62"  class="t-faint" font-size="15.6">worth paying</text>
+      <text x="1040" y="142" class="t-faint" font-size="15.6">for</text>
+    </svg>
+    <div class="warn"><b>The cells are shaded, not numbered, and that is deliberate.</b> Any number written here
+      is wrong within a month, and a slide that ages makes the whole deck untrustworthy. The
+      <b>shape</b> &mdash; which way each row runs &mdash; has been stable for two years.</div>
+  </div>
+  <div class="notes"><p>The residency row is the one that changes conversations in a bank. People arrive
+    assuming the cheap models are the ones that can be hosted where they need them, and that is not a rule
+    at all - it depends entirely on which vendor and which contract. Do not let the row be read as a tier
+    property.</p></div>
+</section>
+
+<!-- 3 ---------------------------------------------------------------- -->
+<section class="slide">
+  <header><div class="hgroup">
+    <p class="eyebrow">The frontier</p>
+    <h2>Place the task, not the model</h2>
+  </div></header>
+  <div class="body">
+    <svg class="dg" viewBox="0 0 1180 230" style="max-height:34vh">
+      <path class="wire" d="M120 200 H1120 M120 200 V20"/>
+      <text x="620" y="224" text-anchor="middle" class="t-faint" font-size="16.2">how often the cheap model is already right &rarr;</text>
+      <text x="16" y="110" class="t-faint" font-size="16.2">what being</text>
+      <text x="16" y="130" class="t-faint" font-size="16.2">wrong costs</text>
+
+      <path class="wire-a dash" d="M180 40 L1060 190"/>
+      <text x="1120" y="80" text-anchor="end" class="t-acc" font-size="16.9">pay for reasoning above the line</text>
+      <text x="300" y="176" class="t-good" font-size="16.9">cheap model below it</text>
+
+      <circle cx="300" cy="60" r="7" fill="var(--bad)"/>
+      <text x="316" y="66" font-size="16.9">money or dates in production</text>
+      <circle cx="430" cy="92" r="7" fill="var(--bad)"/>
+      <text x="446" y="98" font-size="16.9">multi-file refactor</text>
+      <circle cx="380" cy="140" r="7" fill="var(--accent)"/>
+      <text x="396" y="146" font-size="16.9">a subtle bug</text>
+      <circle cx="780" cy="120" r="7" fill="var(--accent)"/>
+      <text x="796" y="126" font-size="16.9">write a unit test</text>
+      <circle cx="900" cy="168" r="7" fill="var(--good)"/>
+      <text x="916" y="174" font-size="16.9">explain this code</text>
+      <circle cx="1000" cy="186" r="7" fill="var(--good)"/>
+      <text x="906" y="200" font-size="16.9">docstring</text>
+    </svg>
+    <div class="note"><b>Nothing on this chart is a model name</b>, so it survives the roster changing. When a
+      new model lands you do not redraw the chart &mdash; you move the diagonal, and every task keeps its
+      place.</div>
+  </div>
+  <div class="notes"><p>Ask the room to place two of their own tasks before you move on. Most teams have never
+    articulated the vertical axis, and it is the one that decides: "what does it cost us if this is quietly
+    wrong" is a different question from "is this hard".</p></div>
+</section>
+
+<!-- 4 ---------------------------------------------------------------- -->
+<section class="slide">
+  <header><div class="hgroup">
+    <p class="eyebrow">Evidence, not reputation</p>
+    <h2>Write the guess down before you open the data</h2>
+  </div></header>
+  <div class="body">
+    <div class="grid2 fill">
+      <div class="card bad">
+        <h3>How this normally goes</h3>
+        <ul>
+          <li>Run three models on one task.</li>
+          <li>Read the three answers.</li>
+          <li>Prefer the one you expected to prefer.</li>
+          <li>Call it a benchmark.</li>
+        </ul>
+        <p>With one run per cell, and no prediction recorded, you cannot tell a result from a
+          preference.</p>
+      </div>
+      <div class="card good">
+        <h3>What the lab does instead</h3>
+        <ul>
+          <li>Predict which archetype wins on <b>your</b> three commonest tasks.</li>
+          <li>Write the prediction down. Sixty seconds.</li>
+          <li><b>Then</b> open the recorded runs.</li>
+          <li>Count how many predictions survived.</li>
+        </ul>
+        <p>Typically one of three. That number is the finding, and it is about you, not the models.</p>
+      </div>
+    </div>
+    <div class="warn"><b>This module does not re-run the three-model comparison.</b> That lab exists, it works,
+      and it belongs to the Copilot as Assistant module. Here we analyse the output of one &mdash; which is
+      also the only version that works for a room whose model picker shows nothing but Auto.</div>
+  </div>
+  <div class="notes"><p>Pre-registration is the whole trick and it is worth naming as such. It is the
+    difference between evidence and confirmation, it costs a minute, and it is the single most portable
+    habit in this tier - it works on any decision where somebody already has an opinion.</p></div>
+</section>
+
+<!-- 5 ---------------------------------------------------------------- -->
+<section class="slide">
+  <header><div class="hgroup">
+    <p class="eyebrow">The row you would defend</p>
+    <h2>A selection rule has to say what it is not</h2>
+  </div></header>
+  <div class="body">
+    <div class="grid2 fill">
+      <div class="card bad">
+        <h3>Not defensible</h3>
+<pre><s>Use the reasoning model for
+anything important.</s></pre>
+        <p>"Important" is every task, to the person doing it. This costs you the frontier rate on
+          docstrings.</p>
+      </div>
+      <div class="card good">
+        <h3>Defensible</h3>
+<pre><em>Unit tests and multi-file changes:
+default tier.
+Money, dates or boundaries: reasoning,
+high effort, and read the diff.
+Everything else: Auto.
+Revisit when the roster changes.</em></pre>
+      </div>
+    </div>
+    <div class="takeaway"><b>Lab 1 now:</b> write your prediction, open the recorded runs, and produce one
+      row of that guide you would be willing to defend to the person who disagrees with you.
+      Record how many of your three predictions survived contact with the data.</div>
+  </div>
+  <div class="notes"><p>The "revisit when the roster changes" line is not filler. A selection rule with no
+    expiry is how teams end up on last year's defaults; making the review trigger explicit is the cheapest
+    governance in the module.</p></div>
+</section>
+
+</div></div>
+<script src="../assets/te-deck.js"></script>
+</body>
+</html>

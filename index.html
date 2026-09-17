@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Token Optimization &mdash; reusable module</title>
+<style>
+:root{
+  --bg:#0e1116; --bg-2:#141922; --panel:#1a2029; --line:#2f3846; --line-2:#435063;
+  --fg:#e9edf2; --fg-dim:#a6b1c0; --fg-faint:#717f91;
+  --accent:#d98a3d; --accent-2:#6ea8fe; --good:#5fbf8f;
+  --mono:ui-monospace,"JetBrains Mono","Cascadia Mono",Consolas,"DejaVu Sans Mono",monospace;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --serif:ui-serif,Georgia,"Times New Roman",serif;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--sans);font-size:17px;line-height:1.5}
+a{color:var(--accent-2);text-decoration:none} a:hover{text-decoration:underline}
+code{font-family:var(--mono);font-size:.92em;color:var(--fg-dim)}
+.wrap{max-width:1080px;margin:0 auto;padding:0 28px}
+header.top{background:linear-gradient(160deg,var(--bg) 0%,var(--bg-2) 100%);
+  border-bottom:2px solid var(--accent);padding:40px 0 30px}
+.tag{font-size:12.5px;letter-spacing:1.8px;text-transform:uppercase;color:var(--accent);
+  font-weight:700;margin:0 0 8px}
+h1{font-family:var(--serif);font-size:40px;font-weight:600;margin:0 0 12px}
+header.top p.pitch{color:var(--fg-dim);max-width:800px;margin:0 0 18px}
+.meta{display:flex;flex-wrap:wrap;gap:22px;font-family:var(--mono);font-size:13px;color:var(--fg-faint)}
+section{padding:34px 0;border-bottom:1px solid var(--line)}
+h2{font-family:var(--serif);font-size:25px;font-weight:600;margin:0 0 6px}
+section > .wrap > p.intro{color:var(--fg-dim);margin:0 0 20px;max-width:820px}
+.tiers{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
+.tier{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:14px 16px}
+.tier.ext{border-style:dashed;border-color:var(--line-2)}
+.tier .n{display:block;font-family:var(--mono);font-size:11.5px;letter-spacing:1.2px;
+  text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:6px}
+.tier h3{margin:0 0 6px;font-size:18px;font-weight:650}
+.tier p{margin:0 0 10px;font-size:14.5px;color:var(--fg-dim);line-height:1.42}
+.tier .foot{display:flex;justify-content:space-between;font-family:var(--mono);
+  font-size:11.5px;color:var(--fg-faint);border-top:1px solid var(--line);padding-top:8px}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:15px}
+th,td{text-align:left;padding:8px 11px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--accent);font-size:12.5px;letter-spacing:.7px;text-transform:uppercase;font-weight:650}
+td{color:var(--fg-dim)} td b{color:var(--fg)}
+tr:last-child td{border-bottom:none}
+.note{background:var(--panel);border-left:3px solid var(--accent-2);border-radius:0 5px 5px 0;
+  padding:12px 16px;margin:14px 0;color:var(--fg-dim);font-size:15px}
+.note b{color:var(--fg)}
+.note.warn{border-left-color:var(--accent);background:rgba(217,138,61,.07)}
+footer{padding:26px 0 40px;font-size:13px;color:var(--fg-faint)}
+footer a{color:var(--fg-faint)}
+</style>
+</head>
+<body>
+
+<header class="top"><div class="wrap">
+  <p class="tag">Reusable module</p>
+  <h1>Token Optimization</h1>
+  <p class="pitch">Two hours on what an AI-assisted request actually costs and what to do about it:
+    where the tokens really go, choosing a model by use case rather than by reputation, cheap-first
+    cascades, budgeting the context window, and the levers that live in your own code.</p>
+  <p class="meta">
+    <span>5 tiers &middot; 5 labs &middot; ~2 hours</span>
+    <span>~40% talk, ~60% hands-on</span>
+    <span>Was <code>token-economics</code> until Sep 2026</span>
+    <span>Trainer: Rajesh Gheware</span>
+  </p>
+</div></header>
+
+<section><div class="wrap">
+  <h2>The tiers</h2>
+  <p class="intro">Tier 0 stands alone as a 12-minute briefing for a room that only needs to know what
+    a seat costs. Everything after it is about moving the number.</p>
+  <div class="tiers">
+    <div class="tier">
+      <span class="n">Tier 0 &middot; 12 min + lab</span>
+      <h3><a href="presentation/t0-what-a-request-costs.html">What one request really costs</a></h3>
+      <p>The credit formula, what is metered, and one measured day in which 99.2% of all tokens were
+        input. Plus the shape of a turn, which is the diagram the rest of the module returns to.</p>
+      <div class="foot"><span>Lab 0 &middot; 6 min</span><span>Count your own bundle</span></div>
+    </div>
+    <div class="tier">
+      <span class="n">Tier 1 &middot; 10 min + lab</span>
+      <h3><a href="presentation/t1-model-selection.html">Choosing the model, by use case</a></h3>
+      <p>Six criteria against three archetypes, shaded rather than numbered so it does not expire.
+        And the task frontier, which places the task rather than the model.</p>
+      <div class="foot"><span>Lab 1 &middot; 16 min</span><span>One row you would defend</span></div>
+    </div>
+    <div class="tier">
+      <span class="n">Tier 2 &middot; 9 min + lab</span>
+      <h3><a href="presentation/t2-routing-cascades.html">Routing and cascades</a></h3>
+      <p>Cheap first, escalate on a rule. The highest-leverage pattern here, and the one where getting
+        the gate wrong costs more than never having tried.</p>
+      <div class="foot"><span>Lab 2 &middot; 15 min</span><span>The cascade, and what it saved</span></div>
+    </div>
+    <div class="tier">
+      <span class="n">Tier 3 &middot; 8 min + lab</span>
+      <h3><a href="presentation/t3-context-budget.html">A budget per turn, and what to evict</a></h3>
+      <p>One participant sent 54% of a day's tokens. What to drop first, what never to drop, and why
+        caching rewards you for leaving your instruction files alone.</p>
+      <div class="foot"><span>Lab 3 &middot; 19 min</span><span>The 40% token audit</span></div>
+    </div>
+    <div class="tier">
+      <span class="n">Tier 4 &middot; 7 min + lab</span>
+      <h3><a href="presentation/t4-code-levers.html">The levers in your own code</a></h3>
+      <p>The ladder from changing the model down to not calling it &mdash; and the observation that
+        the two widest bars cost nothing and need nobody's approval.</p>
+      <div class="foot"><span>Lab 4 &middot; 12 min</span><span>Delete a model call</span></div>
+    </div>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <h2>The labs</h2>
+  <p class="intro">All five run against <a href="https://github.com/ghewaredevopsai/meridian-freight">Meridian
+    Freight Desk</a>. Two of them need no assistant at all, so they work on a locked-down machine and
+    give every participant identical numbers. Start at <a href="hands-on/README.md">hands-on/</a>.</p>
+  <div class="table-wrap">
+  <table>
+    <tr><th>Lab</th><th>What you do</th><th>What you write down</th></tr>
+    <tr><td><b>0</b> Count your own bundle</td><td>Meter two bundles; check what your seat shows you</td>
+      <td>Bundle sizes, how a conversation grows, credits visible or not</td></tr>
+    <tr><td><b>1</b> One matrix row</td><td>Predict first, in writing, then read 72 recorded runs</td>
+      <td>How many of your three predictions survived the data</td></tr>
+    <tr><td><b>2</b> The cascade</td><td>Write the gate, find the threshold, then deliberately break it</td>
+      <td>Accuracy and cost at four thresholds, including the one that costs more than doing nothing</td></tr>
+    <tr><td><b>3</b> The 40% audit</td><td>Four cuts in order, re-running the task after each</td>
+      <td>Tokens <em>and</em> whether the answer is still right, per cut</td></tr>
+    <tr><td><b>4</b> Delete a model call</td><td>Replace the counting half of a prompt with Python</td>
+      <td>Tokens, wall time, and whether three runs agree with each other</td></tr>
+  </table>
+  </div>
+  <div class="note"><b>Two instruments, and they never share a row.</b> <code>ctxmeter</code> answers
+    instantly and counts only what you listed; your billing page is authoritative about money and
+    arrives late and aggregated. The counter proves the cut. The billing page proves the money.</div>
+  <div class="note warn"><b>Derive, do not assert.</b> Every number on these slides traces to a measured
+    run, and anything priced at a published rate is labelled a what-if. The estimator's own error is
+    measured and published in the practice repo's <code>tools/calibration.md</code>, not claimed.</div>
+</div></section>
+
+<section><div class="wrap">
+  <h2>What this module covers, and what it does not</h2>
+  <div class="note"><b>In scope.</b> Where tokens actually go, the credit mechanism and plan defaults,
+    model selection by use case, routing and cascades, context budgeting and eviction, and the levers
+    in your own code &mdash; down to not calling the model at all.</div>
+  <div class="note"><b>Out of scope, deliberately.</b> <b>How to write a better prompt</b> belongs to the
+    <b>Prompt &amp; Context Engineering</b> module. <b>Running one task against three models</b> is an
+    existing lab in <b>Copilot as Assistant</b> and is analysed here, not repeated. <b>What a tool list
+    costs you per turn</b> is one slide here and a whole tier in the <b>MCP</b> module. A
+    <b>cost-regression gate in CI</b> belongs to the evaluation module when it is built.</div>
+  <p>The full list is in <a href="token-learning-outcomes.md">token-learning-outcomes.md</a>, with where
+    each outcome came from and which facts age fastest.</p>
+</div></section>
+
+<footer><div class="wrap">
+  &copy; Gheware DevOps &amp; Agentic AI &middot;
+  <a href="https://devops.gheware.com">devops.gheware.com</a> &middot;
+  training@gheware.com &middot; +91-9606795215 &middot; Trainer: Rajesh Gheware
+</div></footer>
+
+</body>
+</html>

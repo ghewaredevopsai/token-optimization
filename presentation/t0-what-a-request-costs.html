@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Token Optimization Tier 0 &mdash; What One Request Costs</title>
+<link rel="stylesheet" href="../assets/te-theme.css">
+</head>
+<body data-deck="Tokens &middot; T0" data-home="../index.html"
+      data-next="t1-model-selection.html" data-next-label="Tier 1 - Selection">
+<div id="viewport"><div id="stage">
+
+<!-- 1 ---------------------------------------------------------------- -->
+<section class="slide title">
+  <div class="wrap">
+    <span class="tier">Tier 0</span>
+    <h1>What one request<br>really costs</h1>
+    <p class="sub">A seat is a flat fee. The work done in it is not. AI credits are a bill for tokens
+      &mdash; and one measured workshop day shows where those tokens actually go, which is not where
+      anybody guesses.</p>
+    <p class="meta">
+      <span>5 slides &middot; ~12 minutes</span>
+      <span>Lab 0 follows &middot; count your own bundle</span>
+      <span>Trainer: Rajesh Gheware</span>
+    </p>
+  </div>
+</section>
+
+<!-- 2 ---------------------------------------------------------------- -->
+<section class="slide">
+  <header><div class="hgroup">
+    <p class="eyebrow">The meter</p>
+    <h2>A credit is a bill for tokens, priced three ways</h2>
+  </div></header>
+  <div class="body">
+    <div class="grid-2-1 fill">
+      <div class="card">
+        <h3>How one request becomes credits</h3>
+<pre>credits = ( input  &times; input rate
+          + cached &times; cached rate  <i># a tenth of input</i>
+          + output &times; <b>output rate</b> )  <i># about 6x input</i>
+          &divide; <u>$0.01</u></pre>
+        <table class="tight">
+          <tr><th>Per 1M tokens</th><th>Input</th><th>Cached</th><th>Output</th></tr>
+          <tr><td>A default frontier model</td><td>$2.50</td><td>$0.25</td><td><b>$15.00</b></td></tr>
+        </table>
+      </div>
+      <div class="card on">
+        <h3>What is on the meter</h3>
+        <p><b>Metered:</b> chat, agent mode, code review, the CLI, the cloud agent.</p>
+        <p><b>Not metered</b> on a paid plan: completions and next edit suggestions.</p>
+        <p>Auto model selection takes <b>10% off</b>.</p>
+      </div>
+    </div>
+    <div class="warn"><b>At zero, the default is backwards from what you expect.</b> On an individual plan
+      extra usage stays <b>off</b> until you turn it on and set a budget. In an organisation it is
+      <b>on by default</b>, so the bill keeps growing until an admin caps it.</div>
+    <div class="takeaway"><b>Output is the expensive token. Input is where the tokens are.</b>
+      Everything in this module follows from those two facts being about different things.</div>
+  </div>
+  <div class="notes"><p>Say the organisation default twice. It is the single most expensive line on this
+    slide and the one people assume is the other way round, because their personal experience is of an
+    individual plan that simply stops.</p></div>
+</section>
+
+<!-- 3 ---------------------------------------------------------------- -->
+<section class="slide">
+  <header><div class="hgroup">
+    <p class="eyebrow">Measured &middot; one workshop day</p>
+    <h2>42.7 million tokens, and 99% of them were input</h2>
+  </div></header>
+  <div class="body">
+    <svg class="dg" viewBox="0 0 1180 150" style="max-height:22vh">
+      <text x="10" y="20" class="t-faint t-mono" font-size="15.6">one full delivery day, every participant, drawn to scale</text>
+      <rect class="box-b" x="10" y="32" width="1070" height="44" rx="4"/>
+      <text x="30" y="60" class="t-blue" font-size="19.5" font-weight="700">input &mdash; 42.39M</text>
+      <text x="1070" y="60" text-anchor="end" class="t-blue" font-size="17">99.2%</text>
+      <rect class="box-a" x="10" y="86" width="9" height="44" rx="2"/>
+      <text x="34" y="114" class="t-acc" font-size="19.5" font-weight="700">output &mdash; 0.33M</text>
+      <text x="230" y="114" class="t-faint" font-size="16.9">0.8% &mdash; the part you read</text>
+      <text x="700" y="114" class="t-faint t-mono" font-size="16.2">128 input tokens for every 1 output token</text>
+    </svg>
+    <div class="grid3 fill">
+      <div class="card">
+        <h3>3,892 requests</h3>
+        <p>across 27 active people &mdash; about <b>11,000 tokens</b> per request.</p>
+      </div>
+      <div class="card bad">
+        <h3>Shorter answers save ~5%</h3>
+        <p>"Be concise" is aimed at 0.8% of the traffic. It is not a cost lever.</p>
+      </div>
+      <div class="card on">
+        <h3>46% in one hour</h3>
+        <p>Nearly half the day's bill inside a single afternoon hour.</p>
+      </div>
+    </div>
+    <div class="note"><b>Why input dominates:</b> every agent turn re-sends the system prompt, the instruction
+      files, the tool definitions, the conversation so far and every file it has read. The answer is short.
+      The context behind it goes again, in full, every turn. <b>Cached input bills at a tenth</b> &mdash;
+      that is the discount a stable context earns.</div>
+  </div>
+  <div class="notes"><p>Source: the token and request counters of the workshop's model gateway over one full
+    delivery day, across every participant key. The workshop ran on an open-weight model, so the absolute
+    spend is not a Copilot invoice and is never quoted as one. The 99.2 / 128:1 split is the transferable
+    part, and it is a property of how agents work rather than of which model was behind them.</p></div>
+</section>
+
+<!-- 4 ---------------------------------------------------------------- -->
+<section class="slide">
+  <header><div class="hgroup">
+    <p class="eyebrow">The shape of a turn</p>
+    <h2>Turn ten costs more than turn one, and you typed less</h2>
+  </div></header>
+  <div class="body">
+    <svg class="dg fill" viewBox="0 0 1180 250" style="max-height:38vh">
+      <text x="10" y="18" class="t-faint t-mono" font-size="15.6">what is sent, per turn</text>
+
+      <text x="10" y="56" class="t-dim" font-size="17">turn 1</text>
+      <rect class="box"   x="90"  y="36" width="70"  height="30" rx="3"/>
+      <rect class="box-b" x="164" y="36" width="110" height="30" rx="3"/>
+      <rect class="box-r" x="278" y="36" width="300" height="30" rx="3"/>
+      <rect class="box-a" x="582" y="36" width="50"  height="30" rx="3"/>
+
+      <text x="10" y="106" class="t-dim" font-size="17">turn 5</text>
+      <rect class="box"   x="90"  y="86" width="70"  height="30" rx="3"/>
+      <rect class="box-b" x="164" y="86" width="110" height="30" rx="3"/>
+      <rect class="box-r" x="278" y="86" width="300" height="30" rx="3"/>
+      <rect class="box-g" x="582" y="86" width="240" height="30" rx="3"/>
+      <rect class="box-a" x="826" y="86" width="50"  height="30" rx="3"/>
+
+      <text x="10" y="156" class="t-dim" font-size="17">turn 10</text>
+      <rect class="box"   x="90"  y="136" width="70"  height="30" rx="3"/>
+      <rect class="box-b" x="164" y="136" width="110" height="30" rx="3"/>
+      <rect class="box-r" x="278" y="136" width="300" height="30" rx="3"/>
+      <rect class="box-g" x="582" y="136" width="500" height="30" rx="3"/>
+      <rect class="box-a" x="1086" y="136" width="50" height="30" rx="3"/>
+
+      <rect class="box"   x="90"  y="192" width="14" height="14" rx="2"/>
+      <text x="112" y="204" class="t-faint" font-size="16.2">system</text>
+      <rect class="box-b" x="200" y="192" width="14" height="14" rx="2"/>
+      <text x="222" y="204" class="t-faint" font-size="16.2">instruction files + tool schemas</text>
+      <rect class="box-r" x="520" y="192" width="14" height="14" rx="2"/>
+      <text x="542" y="204" class="t-faint" font-size="16.2">files it has read</text>
+      <rect class="box-g" x="710" y="192" width="14" height="14" rx="2"/>
+      <text x="732" y="204" class="t-faint" font-size="16.2">the conversation so far</text>
+      <rect class="box-a" x="940" y="192" width="14" height="14" rx="2"/>
+      <text x="962" y="204" class="t-faint" font-size="16.2">what you typed</text>
+
+      <text x="10" y="238" class="t-acc" font-size="16.9">Only the last block is new. Everything to its left is a re-run of what you already paid for.</text>
+    </svg>
+  </div>
+  <div class="notes"><p>This is the picture to come back to in every later tier. Tier 3 annotates it with what
+    to evict; Tier 4's levers are all ways of making one of these bands narrower. If a room remembers one
+    diagram from the module, it should be this one.</p></div>
+</section>
+
+<!-- 5 ---------------------------------------------------------------- -->
+<section class="slide">
+  <header><div class="hgroup">
+    <p class="eyebrow">Levers and guardrails</p>
+    <h2>Six levers, and the budget that catches what they miss</h2>
+  </div></header>
+  <div class="body">
+    <table class="tight fill">
+      <tr><th>Lever</th><th>What it cuts</th><th>Evidence from the measured day</th></tr>
+      <tr><td><b>1 &middot; A new chat per task</b></td><td>re-sent history</td>
+        <td>99.2% of all tokens were input</td></tr>
+      <tr><td><b>2 &middot; Point at files, not the repo</b></td><td>context per turn</td>
+        <td>~2.3k tokens per request at the median, 67.6k at the top</td></tr>
+      <tr><td><b>3 &middot; Cap the agent loop</b></td><td>repeated turns</td>
+        <td>a multi-agent app: 3.85 model calls per question, 62% of its tokens inside the tool loop</td></tr>
+      <tr><td><b>4 &middot; Model per task, Auto by default</b></td><td>the rate</td>
+        <td>Auto is 10% off; an open-weight model ran the same day for about 24x less</td></tr>
+      <tr><td><b>5 &middot; Keep standing context stable</b></td><td>full-price input</td>
+        <td>cached input bills at a tenth of the input rate</td></tr>
+      <tr><td><b>6 &middot; Use completions</b></td><td>nothing &mdash; they are free</td>
+        <td>completions and next edit suggestions are unmetered on paid plans</td></tr>
+    </table>
+    <div class="warn"><b>Guardrails before the pilot, not after it.</b> Individual plans: turn extra usage on
+      deliberately and set a budget. Organisations: it is already on &mdash; set user and cost-centre
+      budgets on day one. And know what you can see: usage views are <b>aggregated and delayed</b>,
+      never per request.</div>
+    <div class="takeaway"><b>Lab 0 now:</b> count your own bundle with a meter that answers instantly, and
+      write down whether your seat lets you see a credit figure at all. You are about to be holding two
+      instruments, and they measure different things.</div>
+  </div>
+  <div class="notes"><p>Lever 2's two numbers are the argument for the whole module: the gap between the
+    median request and the heaviest one is thirty-fold, and it is not explained by the people involved
+    being different. Tier 3 opens with who that heaviest user was.</p></div>
+</section>
+
+</div></div>
+<script src="../assets/te-deck.js"></script>
+</body>
+</html>

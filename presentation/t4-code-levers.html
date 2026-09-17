@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Token Optimization Tier 4 &mdash; The Levers in Your Own Code</title>
+<link rel="stylesheet" href="../assets/te-theme.css">
+</head>
+<body data-deck="Tokens &middot; T4" data-home="../index.html"
+      data-prev="t3-context-budget.html" data-prev-label="Tier 3">
+<div id="viewport"><div id="stage">
+
+<!-- 1 ---------------------------------------------------------------- -->
+<section class="slide title">
+  <div class="wrap">
+    <span class="tier">Tier 4</span>
+    <h1>The levers in<br>your own code</h1>
+    <p class="sub">Everything so far was about how you ask. This tier is about the calls your software
+      makes on your behalf, where the cheapest token is the one no model ever sees.</p>
+    <p class="meta">
+      <span>3 slides &middot; ~7 minutes</span>
+      <span>Lab 4 follows &middot; delete a model call</span>
+      <span>Trainer: Rajesh Gheware</span>
+    </p>
+  </div>
+</section>
+
+<!-- 2 ---------------------------------------------------------------- -->
+<section class="slide">
+  <header><div class="hgroup">
+    <p class="eyebrow">The ladder</p>
+    <h2>Cheapest to do at the bottom. Most people start at the top.</h2>
+  </div></header>
+  <div class="body">
+    <svg class="dg fill" viewBox="0 0 1180 250" style="max-height:38vh">
+      <text x="10" y="18" class="t-faint t-mono" font-size="15.6">bar width = typical saving &middot; height on the ladder = effort to adopt</text>
+
+      <text x="10" y="52" class="t-bad" font-size="17">change the model</text>
+      <rect class="box-r" x="330" y="32" width="200" height="26" rx="3"/>
+      <text x="548" y="52" class="t-faint" font-size="16.2">a procurement conversation, and it ages</text>
+
+      <text x="10" y="92" font-size="17">set max output tokens</text>
+      <rect class="box" x="330" y="72" width="90" height="26" rx="3"/>
+      <text x="438" y="92" class="t-faint" font-size="16.2">small &mdash; output is 0.8% of the traffic</text>
+
+      <text x="10" y="132" font-size="17">ask for structured output</text>
+      <rect class="box" x="330" y="112" width="150" height="26" rx="3"/>
+      <text x="498" y="132" class="t-faint" font-size="16.2">the model stops narrating; often shorter than prose</text>
+
+      <text x="10" y="172" class="t-blue" font-size="17">narrow the attachment</text>
+      <rect class="box-b" x="330" y="152" width="560" height="26" rx="3"/>
+      <text x="908" y="172" class="t-faint" font-size="16.2">the big one, and free</text>
+
+      <text x="10" y="212" class="t-good" font-size="17">start a new chat</text>
+      <rect class="box-g" x="330" y="192" width="420" height="26" rx="3"/>
+      <text x="768" y="212" class="t-faint" font-size="16.2">free, instant, and nobody does it</text>
+
+      <text x="10" y="244" class="t-good" font-size="17" font-weight="700">do not call the model</text>
+      <rect class="box-g" x="330" y="228" width="840" height="18" rx="3"/>
+    </svg>
+    <div class="note"><b>The two widest bars cost nothing and need nobody's approval.</b> The narrowest one is
+      the one every cost conversation opens with, because changing the model feels like a decision and
+      starting a new chat feels like housekeeping.</div>
+  </div>
+  <div class="notes"><p>Worth stating plainly: "set max_tokens" is on almost every cost checklist on the
+    internet and it is the second-least effective thing here, because it caps the 0.8% of traffic that is
+    output. It is still worth setting - as a runaway guard, not as a saving.</p></div>
+</section>
+
+<!-- 3 ---------------------------------------------------------------- -->
+<section class="slide">
+  <header><div class="hgroup">
+    <p class="eyebrow">The bottom rung</p>
+    <h2>Is the answer derivable from data you already hold?</h2>
+  </div></header>
+  <div class="body">
+    <div class="grid-2-1 fill">
+      <div class="card">
+        <h3>A prompt somebody runs per consignment</h3>
+<pre class="sm"><i># prompts/summarise-exceptions.md</i>
+Read the exceptions report and group
+the consignments by what is wrong with
+them, say how many of each, and suggest
+what to do about each group.</pre>
+        <p class="codecap">~1,900 est. tokens per run, and three runs give three different groupings.</p>
+      </div>
+      <div class="card on">
+        <h3>The same answer, in Python</h3>
+<pre class="sm"><b>from</b> collections <b>import</b> Counter
+counts = Counter(
+    code <b>for</b> row <b>in</b> rows
+    <b>for</b> code <b>in</b> row[<s>"codes"</s>])</pre>
+        <p><b>0 tokens. Same result every time.</b></p>
+      </div>
+    </div>
+    <div class="warn"><b>The token column is not the argument &mdash; the variance column is.</b> Counting
+      exception codes is not a judgement call, and a model was being paid to be non-deterministic about
+      arithmetic. Keep the model for the part that needs judgement: what to <b>do</b> about the group.</div>
+    <div class="takeaway"><b>Lab 4 now:</b> replace that prompt with about twenty-five lines of standard
+      library. Record tokens before and after, wall time, and &mdash; the column nobody expects &mdash;
+      how many of three runs gave identical output.</div>
+  </div>
+  <div class="notes"><p>This is the tier's whole argument and it is deliberately last, because a room that
+    hears it first decides the module is anti-AI. By here they have measured enough to hear it as what it
+    is: use the expensive, non-deterministic tool for the part that is actually a judgement.</p></div>
+</section>
+
+</div></div>
+<script src="../assets/te-deck.js"></script>
+</body>
+</html>

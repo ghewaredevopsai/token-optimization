@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Token Optimization Tier 3 &mdash; The Context Budget</title>
+<link rel="stylesheet" href="../assets/te-theme.css">
+</head>
+<body data-deck="Tokens &middot; T3" data-home="../index.html"
+      data-prev="t2-routing-cascades.html" data-prev-label="Tier 2"
+      data-next="t4-code-levers.html" data-next-label="Tier 4 - Code levers">
+<div id="viewport"><div id="stage">
+
+<!-- 1 ---------------------------------------------------------------- -->
+<section class="slide title">
+  <div class="wrap">
+    <span class="tier">Tier 3</span>
+    <h1>A budget per turn,<br>and what to evict</h1>
+    <p class="sub">The average hides everything that matters here. One person, on one measured day,
+      sent more than half the tokens &mdash; not because they worked harder, but because of what they
+      were carrying on every turn.</p>
+    <p class="meta">
+      <span>4 slides &middot; ~8 minutes</span>
+      <span>Lab 3 follows &middot; the 40% token audit</span>
+      <span>Trainer: Rajesh Gheware</span>
+    </p>
+  </div>
+</section>
+
+<!-- 2 ---------------------------------------------------------------- -->
+<section class="slide">
+  <header><div class="hgroup">
+    <p class="eyebrow">Distribution &middot; one workshop day</p>
+    <h2>One participant sent 54% of the tokens</h2>
+  </div></header>
+  <div class="body">
+    <svg class="dg" viewBox="0 0 1180 170" style="max-height:25vh">
+      <text x="10" y="18" class="t-faint t-mono" font-size="15.6">tokens per request, by participant &mdash; 27 active people, bars to scale</text>
+      <rect class="box-r" x="120" y="30" width="900" height="26" rx="3"/>
+      <text x="10" y="49" class="t-bad" font-size="17" font-weight="700">A</text>
+      <text x="1040" y="49" class="t-bad t-mono" font-size="16.2">67.6k</text>
+      <rect class="box" x="120" y="62" width="261" height="22" rx="3"/>
+      <text x="10" y="79" font-size="17">B</text><text x="401" y="79" class="t-mono t-faint" font-size="16.2">19.6k</text>
+      <rect class="box" x="120" y="90" width="185" height="22" rx="3"/>
+      <text x="10" y="107" font-size="17">C</text><text x="325" y="107" class="t-mono t-faint" font-size="16.2">13.9k</text>
+      <rect class="box-g" x="120" y="118" width="31" height="22" rx="3"/>
+      <text x="10" y="135" class="t-good" font-size="17">median</text>
+      <text x="171" y="135" class="t-good t-mono" font-size="16.2">2.3k</text>
+      <text x="10" y="163" class="t-faint" font-size="16.2">Same room, same day, same task list. The difference is what each request carried, not how hard anyone worked.</text>
+    </svg>
+    <div class="grid2 fill">
+      <div class="card bad">
+        <h3>Participant A, one day</h3>
+        <p>23.0M tokens across 340 requests &mdash; <b>54% of the whole cohort</b>, and 93% of their
+          own daily cap. 16.3M of it inside a single hour.</p>
+      </div>
+      <div class="card on">
+        <h3>The same requests, as credits</h3>
+        <p>A median request: <b>~0.6 credits</b>. One of A's: <b>~17 credits</b>, about 29 times as
+          much. A's day: <b>~5,800 credits</b> &mdash; 83% of a month's individual allowance, in a day.</p>
+      </div>
+    </div>
+    <div class="takeaway"><b>Budget around the heaviest users, not the average.</b> In a pooled plan the
+      heaviest few spend the team's credits, and the average tells you nothing about whether that is
+      happening.</div>
+  </div>
+  <div class="notes"><p>Same measured day as Tier 0. Credit figures apply Tier 0's frontier rates, uncached,
+    to the day's real token counts - a what-if for scale, not an invoice. What drove A's spike was never
+    traced; the plausible reading is an agent loop carrying a growing conversation, which is exactly the
+    band that grows in Tier 0's turn diagram. Say "not traced" rather than implying it was.</p></div>
+</section>
+
+<!-- 3 ---------------------------------------------------------------- -->
+<section class="slide">
+  <header><div class="hgroup">
+    <p class="eyebrow">The budget, annotated</p>
+    <h2>What drops first, what never drops, what should not be there</h2>
+  </div></header>
+  <div class="body">
+    <svg class="dg" viewBox="0 0 1180 210" style="max-height:31vh">
+      <text x="10" y="20" class="t-faint t-mono" font-size="15.6">the same bar as the prompt module &mdash; now read for what to remove</text>
+
+      <rect class="box"   x="10"  y="34" width="90"  height="54" rx="4"/>
+      <rect class="box-b" x="104" y="34" width="120" height="54" rx="4"/>
+      <rect class="box-r" x="228" y="34" width="560" height="54" rx="4"/>
+      <rect class="box-b" x="792" y="34" width="180" height="54" rx="4"/>
+      <rect class="box-a" x="976" y="34" width="60"  height="54" rx="4"/>
+      <rect class="box-g" x="1040" y="34" width="130" height="54" rx="4"/>
+
+      <text x="55"   y="66" text-anchor="middle" class="t-faint" font-size="15.6">system</text>
+      <text x="164"  y="66" text-anchor="middle" class="t-blue"  font-size="15.6">instructions</text>
+      <text x="508"  y="66" text-anchor="middle" class="t-bad"   font-size="17" font-weight="700">the files you attached</text>
+      <text x="882"  y="66" text-anchor="middle" class="t-blue"  font-size="15.6">conversation</text>
+      <text x="1006" y="66" text-anchor="middle" class="t-acc"   font-size="15.6">ask</text>
+      <text x="1105" y="66" text-anchor="middle" class="t-good"  font-size="15.6">answer</text>
+
+      <path class="wire-r" d="M508 92 V118"/><polygon points="508,118 502,106 514,106" fill="var(--bad)"/>
+      <text x="508" y="140" text-anchor="middle" class="t-bad" font-size="17" font-weight="700">1. evict this first</text>
+      <text x="508" y="162" text-anchor="middle" class="t-dim" font-size="16.2">most of it was never read</text>
+
+      <path class="wire-b" d="M882 92 V118"/><polygon points="882,118 876,106 888,106" fill="var(--accent-2)"/>
+      <text x="882" y="140" text-anchor="middle" class="t-blue" font-size="17" font-weight="700">2. then this</text>
+      <text x="882" y="162" text-anchor="middle" class="t-dim" font-size="16.2">a new chat costs nothing</text>
+
+      <path class="wire-faint" d="M164 92 V118"/>
+      <text x="164" y="140" text-anchor="middle" class="t-faint" font-size="17">never</text>
+      <text x="164" y="162" text-anchor="middle" class="t-dim" font-size="16.2">but keep it stable, and it caches</text>
+
+      <text x="10" y="198" class="t-acc" font-size="16.9">Tool and MCP schemas live in the instructions band &mdash; and are re-sent every turn, per tool. A tool list is context you pay for.</text>
+    </svg>
+    <div class="note"><b>Caching rewards you for not fiddling.</b> A stable standing context bills at a tenth.
+      Editing the instructions file every morning throws that discount away, which is a real cost of a
+      prompt library nobody has put under review.</div>
+  </div>
+  <div class="notes"><p>The tool-schema line is the hand-off to the MCP module, which owns that material and
+    has a whole lab on it. One line here, no more, or the tiers start overlapping.</p></div>
+</section>
+
+<!-- 4 ---------------------------------------------------------------- -->
+<section class="slide">
+  <header><div class="hgroup">
+    <p class="eyebrow">The audit</p>
+    <h2>Four cuts, in this order, re-checking the answer after each</h2>
+  </div></header>
+  <div class="body">
+    <table class="tight fill">
+      <tr><th>#</th><th>Cut</th><th>Typically saves</th><th>What it risks</th></tr>
+      <tr><td>1</td><td>Drop the large data file nobody reads</td><td>the largest single slice</td>
+        <td>nothing, until a question is actually about the data</td></tr>
+      <tr><td>2</td><td>Replace a long document with the lines that decide it</td><td>most of the prose</td>
+        <td>you have to know which lines &mdash; that is the skill</td></tr>
+      <tr><td>3</td><td>Start a new chat instead of continuing</td><td>the whole conversation band</td>
+        <td>re-establishing context you actually needed</td></tr>
+      <tr><td>4</td><td>Stop attaching the docs folder at all</td><td>the rest</td>
+        <td>this is the one that goes too far &mdash; find out where</td></tr>
+    </table>
+    <div class="warn"><b>Re-run the task after every cut, not at the end.</b> An audit that only measures tokens
+      proves you sent less, which was never in doubt. The column that matters is whether the answer is
+      still right &mdash; and the cut that breaks it is the most valuable line in your record sheet.</div>
+    <div class="takeaway"><b>Lab 3 now:</b> 40% is the floor, and most rooms reach 70&ndash;85%. Finish by
+      writing down what the meter could <b>not</b> see &mdash; that sentence is what makes your number
+      defensible back at work.</div>
+  </div>
+  <div class="notes"><p>Cut 4 is deliberately a step too far for most tasks. If nobody in the room breaks the
+    answer, they have not cut hard enough and have learned less than the person who did. Say that before
+    they start, and ask for a show of hands at the end for who broke it.</p></div>
+</section>
+
+</div></div>
+<script src="../assets/te-deck.js"></script>
+</body>
+</html>

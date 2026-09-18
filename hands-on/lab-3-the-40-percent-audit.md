@@ -3,6 +3,17 @@
 **Tier 3 &middot; Context budgeting** &nbsp;|&nbsp; ~19 minutes &nbsp;|&nbsp;
 Assistant needed for the re-checks &nbsp;|&nbsp; measured, not scored
 
+## Objective
+
+Cut a context bundle by at least 40% **without losing the answer** &mdash; and find
+where the floor is by going past it.
+
+By the end you should be able to:
+
+- run a context audit that re-checks the answer after every cut, not just at the end;
+- name the cut that breaks it, and say why;
+- state what the meter could not see, which is what makes your number defensible.
+
 ## The situation
 
 This is the flagship. You will cut a context bundle by at least 40% **without losing
@@ -17,118 +28,119 @@ The right answer names the fuel drift: `manifest.py` applies fuel to the base al
 `rating.py` applies it to base plus surcharges. It should also notice that
 `manifest.py` omits two surcharges entirely.
 
-**Four cuts, in order, re-running the task after every one.** The target is 40%; most
-rooms reach far more. Work straight down this page.
+## What to watch for
+
+- **The correctness column, not the token column.** An audit that only measures
+  tokens proves you sent less, which was never in doubt.
+- **Whether cut 2 makes the answer *better*.** Dropping `docs/` also drops the stale
+  notes file that agrees with the bug.
+- **Where it breaks.** If nothing you do breaks the answer, you did not cut hard
+  enough and you learned less than the person who did.
 
 The task, held constant through every cut:
 
 > Why does the manifest total differ from the quote total?
 
 The right answer names the fuel drift: `manifest.py` applies fuel to the base alone,
-`rating.py` applies it to base plus surcharges. A good answer also notices that
-`manifest.py` omits two surcharges entirely.
+`rating.py` applies it to base plus surcharges.
 
 ---
 
-## Step 1 &mdash; Baseline
+## Step 1 &mdash; See all four cuts before you run any of them
 
 ```bash
 cd ~/meridian-freight
-python3 tools/ctxmeter.py count --absolute $(grep -v '^#' tools/bundles/naive.txt)
+python3 tools/audit_report.py
 ```
 
-Then attach that same set of files in a **new chat** and ask the task question.
-
-Record two things: the token total, and whether the answer was right.
-
----
-
-## Step 2 &mdash; Cut 1: drop the data files
-
-Attach the same set **minus `data/*.json`**.
-
-Meter it, re-run the task in a new chat, record the token total and whether the
-answer is still right.
-
----
-
-## Step 3 &mdash; Cut 2: replace the documents with the lines that decide it
-
-Instead of attaching `docs/`, paste in just the **Charging order** section:
-
-```bash
-sed -n '/^## Charging order/,/^## Clocks/p' docs/ops-runbook.md > six-lines.txt
-python3 tools/ctxmeter.py count --absolute six-lines.txt
+```
+           what changed                 est. tok  of baseline   answer still right?
+------------------------------------------------------------------------------
+baseline   what most people attach         38360       100%   ___
+cut 1      drop the two data files         11969        31%   ___
+cut 2      the rule, not all of docs/      10158        26%   ___
+cut 3      start a new chat                 same       same   ___
+cut 4      one file, far too little          938         2%   ___
 ```
 
-Attach the code files, paste those lines, re-run, record.
+The arithmetic is done. **The last column is yours**, and it is the only one that
+matters. The bundles for each cut are in `tools/bundles/`.
 
 ---
 
-## Step 4 &mdash; Cut 3: start a new chat
+## Step 2 &mdash; Baseline
 
-You have been continuing one conversation. Start a **fresh** one with the same
-attachments as Cut 2 and ask again.
+Attach everything in `tools/bundles/naive.txt` in a **new chat** and ask the task
+question.
 
-The saving here is the whole conversation band from the Tier 0 diagram.
-
----
-
-## Step 5 &mdash; Cut 4: go too far
-
-Attach **only `manifest.py`**. Not `rating.py`, not the runbook.
-
-Meter, re-run, record. **You are expected to break the answer here.** If you did not,
-you have not cut hard enough, and you have learned less than the person next to you
-who did.
+Did it name the fuel drift? Mark the baseline row.
 
 ---
 
-## Step 6 &mdash; Compute the cut
+## Step 3 &mdash; Cut 1: drop the data files
+
+Attach the set in `cut1-no-data.txt` &mdash; the same files minus `data/*.json`.
+
+New chat, same question, mark the row.
+
+---
+
+## Step 4 &mdash; Cut 2: the rule, not the whole docs folder
+
+Attach the set in `cut2-rule-not-docs.txt`. That swaps the `docs/` folder for
+`six-lines.txt`, which `audit_report.py` generated for you &mdash; just the
+**Charging order** section.
+
+New chat, same question, mark the row.
+
+---
+
+## Step 5 &mdash; Cut 3: start a new chat
+
+No attachment changes at all. Same set as cut 2, but a **fresh conversation**.
+
+The saving is the conversation you stop re-sending, which no bundle can show. The
+script prints what six turns were costing you.
+
+Ask again, mark the row.
+
+---
+
+## Step 6 &mdash; Cut 4: go too far
+
+Attach **only `meridian/manifest.py`**. Not `rating.py`, not the runbook.
+
+**You are expected to break the answer here.** Mark the row and write down *why* it
+broke &mdash; that sentence is the most valuable line on your sheet.
+
+---
+
+## Step 7 &mdash; Watch the meter refuse a percentage
 
 ```bash
 python3 tools/ctxmeter.py diff tools/bundles/naive.txt tools/bundles/minimal.txt
 ```
 
-**It will refuse to print a percentage.** Read the message it gives you. Then decide
-whether to re-run it with `--allow-mixed`, and be able to say out loud why that is or
-is not honest here.
+**It will not print a headline percentage.** Read the message. Then decide whether to
+re-run with `--allow-mixed`, and be able to say out loud why that is or is not honest
+here.
 
 ---
 
-## Step 7 &mdash; Record
-
-One paste creates the sheet:
+## Step 8 &mdash; Record
 
 ```bash
-cat > lab-3-record.md <<'EOF'
-# Lab 3
-
-                              est. tokens   % of baseline   answer still right?
-baseline (naive)              ______        100%            ___
-cut 1: no data files          ______        ____%           ___
-cut 2: six lines, not docs/   ______        ____%           ___
-cut 3: new chat               ______        ____%           ___
-cut 4: manifest.py alone      ______        ____%           ___
-
-Largest cut that kept the answer: ____%
-The cut that broke it, and why: ____________________________________
-
-Did ctxmeter refuse a percentage? ___  Why? ____________________
-
-What the meter could NOT see on any of these runs:
-____________________________________________________________
-EOF
+python3 tools/audit_report.py --record
 ```
 
-Fill in the blanks in any editor, then commit it &mdash; the sheet is the
-deliverable, not your memory of the run:
+That writes `lab-3-record.md` with every token figure already in it. **You fill in the
+correctness column and the three questions at the foot.**
 
 ```bash
 git add lab-3-record.md && git commit -m "lab 3: the 40% audit"
 ```
 
-## Notice
+## Key takeaways
 
 - **40% is the floor.** Most rooms reach 70&ndash;85% while keeping the answer. If you
   stopped at 40% you stopped early.

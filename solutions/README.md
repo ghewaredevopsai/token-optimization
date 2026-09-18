@@ -19,9 +19,9 @@ usually happens and why, not what must happen.
 
 | Measurement | Value |
 |---|---|
-| `everything.txt` | ~46,700 est. tokens |
-| `naive.txt` | ~37,500 |
-| `minimal.txt` | ~2,900 |
+| `everything.txt` | ~45,700 est. tokens |
+| `naive.txt` | ~38,400 |
+| `minimal.txt` | ~2,200 |
 | `cascade.py`, no gate | 70% accuracy, cost 80 |
 | always-strong | 100%, cost 960 |
 | threshold 0.60–0.70 | **100%, cost 368, 6 of 20 escalated** |

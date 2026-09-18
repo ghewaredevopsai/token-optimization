@@ -4,8 +4,8 @@
 
 | | est. tokens |
 |---|--:|
-| `everything.txt` | ~46,700 |
-| `naive.txt` | ~37,500 |
+| `everything.txt` | ~45,700 |
+| `naive.txt` | ~38,400 |
 | difference | ~9,200 |
 
 The two files that dominate are `data/tariff.json` (~10,100, about a fifth of the repository on its

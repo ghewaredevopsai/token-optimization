@@ -4,7 +4,7 @@
 
 | | est. tokens | % of baseline | answer still right? |
 |---|--:|--:|:--:|
-| baseline (`naive.txt`) | ~37,500 | 100% | often no |
+| baseline (`naive.txt`) | ~38,400 | 100% | often no |
 | cut 1 — no `data/*.json` | ~15,800 | 42% | usually |
 | cut 2 — six lines, not `docs/` | ~4,100 | 11% | yes |
 | cut 3 — new chat | ~3,600 | 10% | yes |

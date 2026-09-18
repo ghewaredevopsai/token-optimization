@@ -54,7 +54,10 @@ The right answer names the fuel drift: `manifest.py` applies fuel to the base al
 
 ## Record
 
-```markdown
+One paste creates the sheet:
+
+```bash
+cat > lab-3-record.md <<'EOF'
 # Lab 3
 
                               est. tokens   % of baseline   answer still right?
@@ -71,7 +74,11 @@ Did ctxmeter refuse a percentage? ___  Why? ____________________
 
 What the meter could NOT see on any of these runs:
 ____________________________________________________________
+EOF
 ```
+
+Fill in the blanks in any editor, then commit it &mdash; the sheet is the
+deliverable, not your memory of the run:
 
 ```bash
 git add lab-3-record.md && git commit -m "lab 3: the 40% audit"

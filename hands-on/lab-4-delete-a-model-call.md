@@ -52,7 +52,10 @@ You are going to take the counting back.
 
 ## Record
 
-```markdown
+One paste creates the sheet:
+
+```bash
+cat > lab-4-record.md <<'EOF'
 # Lab 4
 
                           est. tokens   wall time   3 runs identical?
@@ -64,7 +67,11 @@ Tokens saved per morning: ______   Per year, at one run a day: ______
 
 The part I kept for the model, and why it needs a model:
 ____________________________________________________________
+EOF
 ```
+
+Fill in the blanks in any editor, then commit it &mdash; the sheet is the
+deliverable, not your memory of the run:
 
 ```bash
 git add lab-4-record.md && git commit -m "lab 4: delete a model call"

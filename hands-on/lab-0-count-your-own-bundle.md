@@ -58,7 +58,10 @@ that is authoritative about money and arrives late.
 
 ## Record
 
-```markdown
+One paste creates the sheet:
+
+```bash
+cat > lab-0-record.md <<'EOF'
 # Lab 0
 
 everything.txt      ______ est. tokens
@@ -70,7 +73,11 @@ If yes, last updated: ______
 
 ctxmeter's measured error on code files: ______  (from calibration.md)
 The thing it can never see: ____________________________________
+EOF
 ```
+
+Fill in the blanks in any editor, then commit it &mdash; the sheet is the
+deliverable, not your memory of the run:
 
 ```bash
 git add lab-0-record.md && git commit -m "lab 0: two instruments"

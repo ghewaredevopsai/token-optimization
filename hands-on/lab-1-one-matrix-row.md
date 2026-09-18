@@ -14,14 +14,21 @@ This lab is designed to find out whether that opinion survives contact with data
 Name your team's **three commonest AI-assisted tasks**. For each, predict which
 archetype wins on *value for money*: **fast**, **default** or **reasoning**.
 
-```markdown
+Create the sheet now and write them in it &mdash; the Record section at the foot has
+the full template, or start with just this:
+
+```bash
+cat > lab-1-record.md <<'EOF'
+# Lab 1
+
 task 1: ____________________  my prediction: ______
 task 2: ____________________  my prediction: ______
 task 3: ____________________  my prediction: ______
+EOF
 ```
 
-Write it in the record sheet now. **Do not skip ahead and then fill this in.** The
-whole lab is worthless if you do, and you are the only person who would know.
+**Do not skip ahead and then fill this in.** The whole lab is worthless if you do,
+and you are the only person who would know.
 
 ## Step 2 &mdash; Open the data
 
@@ -77,7 +84,10 @@ on last year's defaults.
 
 ## Record
 
-```markdown
+One paste creates the sheet:
+
+```bash
+cat > lab-1-record.md <<'EOF'
 # Lab 1
 
 predictions:  task 1 ______  task 2 ______  task 3 ______
@@ -90,7 +100,11 @@ My live run: task ____________ time ____ kept? ___ credits ______
 
 My defensible row:
 ____________________________________________________________
+EOF
 ```
+
+Fill in the blanks in any editor, then commit it &mdash; the sheet is the
+deliverable, not your memory of the run:
 
 ```bash
 git add lab-1-record.md && git commit -m "lab 1: predict, then look"

@@ -66,7 +66,10 @@ enough.
 
 ## Record
 
-```markdown
+One paste creates the sheet:
+
+```bash
+cat > lab-2-record.md <<'EOF'
 # Lab 2
 
 threshold   accuracy   cost   escalated
@@ -82,7 +85,11 @@ Escalate-everything cost ______ against always-strong's 960.
 
 Confidence when right ______ vs when wrong ______.
 Would this cascade work if those two numbers were equal?  ______
+EOF
 ```
+
+Fill in the blanks in any editor, then commit it &mdash; the sheet is the
+deliverable, not your memory of the run:
 
 ```bash
 git add lab-2-record.md && git commit -m "lab 2: the cascade"

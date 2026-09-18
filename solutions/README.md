@@ -19,7 +19,7 @@ usually happens and why, not what must happen.
 
 | Measurement | Value |
 |---|---|
-| `everything.txt` | ~45,700 est. tokens |
+| `everything.txt` | ~52,000 est. tokens |
 | `naive.txt` | ~38,400 |
 | `minimal.txt` | ~2,200 |
 | `cascade.py`, no gate | 70% accuracy, cost 80 |

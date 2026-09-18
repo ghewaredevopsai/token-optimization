@@ -3,6 +3,24 @@
 **Tier 1 &middot; Model selection** &nbsp;|&nbsp; ~16 minutes &nbsp;|&nbsp;
 Works with any seat, including Auto-only &nbsp;|&nbsp; measured, not scored
 
+## Objective
+
+Find out whether your opinion about which model to use survives contact with data -
+and the only honest way to find that out is to write the opinion down first.
+
+By the end you should be able to:
+
+- pre-register a prediction and score it, on any decision where you already have a view;
+- read a model comparison without letting the expensive tier flatter itself;
+- write one selection rule you would defend, including its expiry.
+
+## What to watch for
+
+- **Where the reasoning tier loses.** It is usually the mechanical task, and almost
+  nobody predicts that.
+- **Where four runs is not enough.** Two archetypes within one kept-diff of each other
+  cannot be separated at n=4, and should not be.
+- **Your own confidence.** Most people get one prediction of three right.
 ## The situation
 
 Everybody in this room already has an opinion about which model to use for what.
@@ -110,7 +128,7 @@ deliverable, not your memory of the run:
 git add lab-1-record.md && git commit -m "lab 1: predict, then look"
 ```
 
-## Notice
+## Key takeaways
 
 - **Pre-registering the guess is the entire technique**, and it transfers far beyond
   models. It costs sixty seconds and it converts "I knew it" into evidence or into a

@@ -4,7 +4,7 @@
 
 | | est. tokens |
 |---|--:|
-| `everything.txt` | ~45,700 |
+| `everything.txt` | ~52,000 |
 | `naive.txt` | ~38,400 |
 | difference | ~9,200 |
 

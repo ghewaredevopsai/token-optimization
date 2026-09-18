@@ -3,6 +3,27 @@
 **Tier 2 &middot; Routing and cascades** &nbsp;|&nbsp; ~15 minutes &nbsp;|&nbsp;
 No assistant, no network &nbsp;|&nbsp; measured, not scored
 
+## Objective
+
+Find the gate: the rule that decides when a cheap answer is not good enough - and
+find out what a badly set one costs.
+
+By the end you should be able to:
+
+- name four gates that can be automated and two that cannot;
+- find the escalation rate where a cascade matches the strong model's accuracy, and
+  the rate where it costs more than not cascading at all;
+- check whether a cheap model's confidence tracks its correctness, and say what
+  follows if it does not.
+
+## What to watch for
+
+- **The plateau, not the point.** 0.60 to 0.70 all cost the same. A threshold in the
+  middle of a flat region is robust; one on a cliff edge is fitted to your sample.
+- **The last row.** Escalating everything reaches 100% accuracy and costs *more* than
+  always-strong. Nothing about the answers would tell you - only the cost column does.
+- **Confidence when right against confidence when wrong.** If those two were equal the
+  whole pattern collapses, and almost nobody checks.
 ## The situation
 
 Twenty triage cases. Two "models" that are ordinary Python functions with a known
@@ -57,30 +78,39 @@ python3 tools/cascade.py
 
 ---
 
-## Step 4 &mdash; Sweep for your threshold
+## Step 4 &mdash; See the whole curve at once
 
 ```bash
-for t in 0.40 0.50 0.60 0.70 0.80 0.90; do
-  sed -i "s/confidence < [0-9.]*/confidence < $t/" tools/cascade.py
-  echo -n "$t  "; python3 tools/cascade.py | grep "your cascade"
-done
+python3 tools/cascade_report.py
 ```
 
-Find the **cheapest threshold that still reaches 100%**. Write it down.
+```
+gate < 0.40        70%       80          0%
+gate < 0.50        75%      128          5%
+gate < 0.60       100%      368         30%   cheapest at full accuracy
+gate < 0.65       100%      368         30%   same cost - the plateau
+gate < 0.80       100%      560         50%   full accuracy, 1.5x the cost of 0.60
+gate < 1.01       100%     1040        100%   costs MORE than always-strong
+```
+
+**Find the cheapest threshold that still reaches 100%.** Note also that 0.60 to 0.70
+is a *plateau*, not a point: a threshold sitting in the middle of a flat region is
+robust, one perched on a cliff edge is fitted to your sample.
+
+This tool does not edit `cascade.py` &mdash; your gate from Step 3 stays yours. It
+just saves you running the script six times and copying numbers.
 
 ---
 
-## Step 5 &mdash; Break it deliberately
+## Step 5 &mdash; Look hard at the last row
 
-Set the threshold to `1.01`, so every case escalates:
+`gate < 1.01` escalates every case. Compare its cost with always-strong's 960.
 
-```bash
-sed -i "s/confidence < [0-9.]*/confidence < 1.01/" tools/cascade.py
-python3 tools/cascade.py
-```
+**It costs more.** Not the same &mdash; *more*. You bought the cheap answer twenty
+times and threw it away twenty times, and the accuracy column still reads 100%, so
+nothing about the answers would ever tell you. **Only the cost column does.**
 
-**Look at the cost column and compare it with always-strong's 960.** Write that number
-down &mdash; it is the most important row in the lab.
+Write that number down. It is the most important row in the lab.
 
 ---
 
@@ -105,7 +135,15 @@ If those two numbers were equal, your gate would be a coin toss that costs money
 
 ## Step 7 &mdash; Record
 
-One paste creates the sheet:
+```bash
+python3 tools/cascade_report.py --record
+```
+
+That writes `lab-2-record.md` with your chosen threshold, the saving against
+always-strong and the confidence figures already in it. **You fill in the sweep rows
+and the last question.**
+
+Or write the sheet by hand:
 
 ```bash
 cat > lab-2-record.md <<'EOF'
@@ -134,7 +172,7 @@ deliverable, not your memory of the run:
 git add lab-2-record.md && git commit -m "lab 2: the cascade"
 ```
 
-## Notice
+## Key takeaways
 
 - **There is a threshold where you get the strong model's accuracy for about a third
   of its price.** That is the pattern working, and it is a bigger saving than any

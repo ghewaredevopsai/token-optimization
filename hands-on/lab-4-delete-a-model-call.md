@@ -3,6 +3,24 @@
 **Tier 4 &middot; The levers in your own code** &nbsp;|&nbsp; ~12 minutes &nbsp;|&nbsp;
 Assistant optional &nbsp;|&nbsp; measured, not scored
 
+## Objective
+
+Find a model call that is really a computation, replace it, and be able to argue the
+case on something better than tokens.
+
+By the end you should be able to:
+
+- recognise the counting half of a prompt and separate it from the judgement half;
+- argue the variance case, not just the cost case;
+- say what you kept for the model, and why it genuinely needs one.
+
+## What to watch for
+
+- **Whether three model runs agree with each other.** They usually do not. Three
+  Python runs always do.
+- **That the deterministic version already existed.** Somebody wrote
+  `report.summarise()`; somebody else later wrote a prompt that duplicates it.
+- **What is left after you take the counting away.** That part is worth every credit.
 ## The situation
 
 `prompts/summarise-exceptions.md` is a prompt somebody on the desk runs every
@@ -116,7 +134,7 @@ deliverable, not your memory of the run:
 git add lab-4-record.md && git commit -m "lab 4: delete a model call"
 ```
 
-## Notice
+## Key takeaways
 
 - **The variance column is the argument, not the token column.** Three model runs give
   three groupings; three Python runs give one. You were paying for

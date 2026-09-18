@@ -3,6 +3,24 @@
 **Tier 0 &middot; What one request costs** &nbsp;|&nbsp; ~6 minutes &nbsp;|&nbsp;
 No assistant needed &nbsp;|&nbsp; measured, not scored
 
+## Objective
+
+Find out what you can actually measure about spend on your own seat - and what you
+cannot.
+
+By the end you should be able to:
+
+- say what a bundle costs, instantly, without waiting for a vendor's meter;
+- say whether your seat shows you a credit figure at all, and how stale it is;
+- state the estimator's measured error and the thing it can never see.
+
+## What to watch for
+
+- **The two data files are most of the repository**, and neither is about pricing.
+- **Turn 10 sends far more than turn 1** although you typed less. That is the shape
+  of every agent conversation, not a defect.
+- **Which of the three things happens** when you look for a credit figure. All three
+  are findings; the third one is the constraint this module is built around.
 ## The situation
 
 You are about to spend two hours cutting a number. First you need to know what you
@@ -110,7 +128,7 @@ deliverable, not your memory of the run:
 git add lab-0-record.md && git commit -m "lab 0: two instruments"
 ```
 
-## Notice
+## Key takeaways
 
 - **The two data files are most of the repository** and neither is about pricing
   logic. Every "just use my codebase" request sends them.

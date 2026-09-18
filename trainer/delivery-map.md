@@ -89,7 +89,7 @@ Deterministic and identical in every room:
 | threshold 1.01 (escalate all) | 100%, **cost 1040 &mdash; more than always-strong** |
 | confidence when right / wrong | 0.85 / 0.53 &mdash; the gate is well founded |
 | `everything.txt` / `naive.txt` / `minimal.txt` | ~52,000 / ~38,400 / ~2,200 est. tokens |
-| practice repo test suite | 27 tests, exactly 1 failure |
+| practice repo test suite | 28 tests, exactly 1 failure |
 
 ⚠️ `ctxmeter diff naive minimal` **refuses to print a percentage** (the data share moves 64% &rarr; 0%).
 That is the tool working. Read the refusal aloud in Lab 3 &mdash; it is a better lesson than the

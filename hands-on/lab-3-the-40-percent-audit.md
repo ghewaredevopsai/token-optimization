@@ -17,42 +17,86 @@ The right answer names the fuel drift: `manifest.py` applies fuel to the base al
 `rating.py` applies it to base plus surcharges. It should also notice that
 `manifest.py` omits two surcharges entirely.
 
-## Do
+**Four cuts, in order, re-running the task after every one.** The target is 40%; most
+rooms reach far more. Work straight down this page.
 
-1. **Baseline.** Meter the naive bundle and run the task with it attached.
+The task, held constant through every cut:
 
-   ```bash
-   python3 tools/ctxmeter.py count --absolute $(grep -v '^#' tools/bundles/naive.txt)
-   ```
+> Why does the manifest total differ from the quote total?
 
-   Record the number and whether the answer was right.
+The right answer names the fuel drift: `manifest.py` applies fuel to the base alone,
+`rating.py` applies it to base plus surcharges. A good answer also notices that
+`manifest.py` omits two surcharges entirely.
 
-2. **Cut 1 &mdash; drop the data files.** Remove `data/*.json` from what you attach.
-   Meter, re-run the task, record.
+---
 
-3. **Cut 2 &mdash; replace the documents with the lines that decide it.** Instead of
-   `docs/`, paste the six lines under **Charging order** in `docs/ops-runbook.md`.
-   Meter, re-run, record.
+## Step 1 &mdash; Baseline
 
-4. **Cut 3 &mdash; new chat.** You have been continuing one conversation. Start a
-   fresh one with the same attachments. The saving is the whole conversation band from
-   the Tier 0 diagram.
+```bash
+cd ~/meridian-freight
+python3 tools/ctxmeter.py count --absolute $(grep -v '^#' tools/bundles/naive.txt)
+```
 
-5. **Cut 4 &mdash; go too far.** Attach only `manifest.py`. Not `rating.py`, not the
-   runbook. Meter, re-run, record. **You are expected to break the answer here.**
-   If you did not, you have not cut hard enough and you have learned less than the
-   person next to you who did.
+Then attach that same set of files in a **new chat** and ask the task question.
 
-6. **Compute the cut.**
+Record two things: the token total, and whether the answer was right.
 
-   ```bash
-   python3 tools/ctxmeter.py diff tools/bundles/naive.txt tools/bundles/minimal.txt
-   ```
+---
 
-   **It will refuse to print a percentage.** Read the message. Then decide whether to
-   pass `--allow-mixed`, and say out loud why that is or is not honest here.
+## Step 2 &mdash; Cut 1: drop the data files
 
-## Record
+Attach the same set **minus `data/*.json`**.
+
+Meter it, re-run the task in a new chat, record the token total and whether the
+answer is still right.
+
+---
+
+## Step 3 &mdash; Cut 2: replace the documents with the lines that decide it
+
+Instead of attaching `docs/`, paste in just the **Charging order** section:
+
+```bash
+sed -n '/^## Charging order/,/^## Clocks/p' docs/ops-runbook.md > six-lines.txt
+python3 tools/ctxmeter.py count --absolute six-lines.txt
+```
+
+Attach the code files, paste those lines, re-run, record.
+
+---
+
+## Step 4 &mdash; Cut 3: start a new chat
+
+You have been continuing one conversation. Start a **fresh** one with the same
+attachments as Cut 2 and ask again.
+
+The saving here is the whole conversation band from the Tier 0 diagram.
+
+---
+
+## Step 5 &mdash; Cut 4: go too far
+
+Attach **only `manifest.py`**. Not `rating.py`, not the runbook.
+
+Meter, re-run, record. **You are expected to break the answer here.** If you did not,
+you have not cut hard enough, and you have learned less than the person next to you
+who did.
+
+---
+
+## Step 6 &mdash; Compute the cut
+
+```bash
+python3 tools/ctxmeter.py diff tools/bundles/naive.txt tools/bundles/minimal.txt
+```
+
+**It will refuse to print a percentage.** Read the message it gives you. Then decide
+whether to re-run it with `--allow-mixed`, and be able to say out loud why that is or
+is not honest here.
+
+---
+
+## Step 7 &mdash; Record
 
 One paste creates the sheet:
 

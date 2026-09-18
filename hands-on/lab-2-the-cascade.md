@@ -12,59 +12,98 @@ every row in the room is comparable.
 Your job is the **gate**: the rule that decides when the cheap answer is not good
 enough.
 
-## Do
+**Twenty triage cases, two "models" that are ordinary Python functions**, and one
+decision to make: the gate. Nothing here calls a model or touches the network, so
+every number in the room is identical. Work straight down this page.
 
-1. **Run it unmodified.**
+---
 
-   ```bash
-   cd meridian-freight
-   python3 tools/cascade.py
-   ```
+## Step 1 &mdash; Run it unmodified
 
-   You escalate nothing, so you get the cheap model's accuracy at the cheap model's
-   price, plus a message telling you exactly that.
+```bash
+cd ~/meridian-freight
+python3 tools/cascade.py
+```
 
-2. **Read the two baselines.** Always-cheap: 70% accurate, cost 80. Always-strong:
-   100% accurate, cost 960. Everything you do now lives between those two rows.
+You escalate nothing, so you get the cheap model's accuracy at the cheap model's
+price &mdash; plus a message telling you exactly that.
 
-3. **Write the blunt gate.** In `tools/cascade.py`, replace the body of `decide()`:
+---
 
-   ```python
-   return confidence < 0.6
-   ```
+## Step 2 &mdash; Read the two baselines
 
-   Run it again.
+From that output:
 
-4. **Find your threshold.** Try several. A quick sweep:
+- **always cheap:** 70% accurate, cost 80
+- **always strong:** 100% accurate, cost 960
 
-   ```bash
-   for t in 0.40 0.50 0.60 0.70 0.80 0.90; do
-     sed -i "s/confidence < [0-9.]*/confidence < $t/" tools/cascade.py
-     echo -n "$t  "; python3 tools/cascade.py | grep "your cascade"
-   done
-   ```
+Everything you do from here lives between those two rows.
 
-   Find the cheapest threshold that still reaches 100%.
+---
 
-5. **Now break it deliberately.** Set the threshold to `1.01` so every case escalates.
-   Look at the cost column and compare it with always-strong. **Write that number
-   down** &mdash; it is the most important row in the lab.
+## Step 3 &mdash; Write the blunt gate
 
-6. **Check the assumption the whole pattern rests on.** Does the cheap model's
-   confidence actually track whether it is right?
+Open `tools/cascade.py` and replace the body of `decide()` with:
 
-   ```bash
-   python3 - <<'PY'
-   import json
-   cases = json.load(open("data/triage-cases.json"))["cases"]
-   right = [c["cheap_confidence"] for c in cases if c["cheap_answer"] == c["true_answer"]]
-   wrong = [c["cheap_confidence"] for c in cases if c["cheap_answer"] != c["true_answer"]]
-   print("when right: %.2f avg over %d" % (sum(right)/len(right), len(right)))
-   print("when wrong: %.2f avg over %d" % (sum(wrong)/len(wrong), len(wrong)))
-   PY
-   ```
+```python
+return confidence < 0.6
+```
 
-## Record
+Then run it again:
+
+```bash
+python3 tools/cascade.py
+```
+
+---
+
+## Step 4 &mdash; Sweep for your threshold
+
+```bash
+for t in 0.40 0.50 0.60 0.70 0.80 0.90; do
+  sed -i "s/confidence < [0-9.]*/confidence < $t/" tools/cascade.py
+  echo -n "$t  "; python3 tools/cascade.py | grep "your cascade"
+done
+```
+
+Find the **cheapest threshold that still reaches 100%**. Write it down.
+
+---
+
+## Step 5 &mdash; Break it deliberately
+
+Set the threshold to `1.01`, so every case escalates:
+
+```bash
+sed -i "s/confidence < [0-9.]*/confidence < 1.01/" tools/cascade.py
+python3 tools/cascade.py
+```
+
+**Look at the cost column and compare it with always-strong's 960.** Write that number
+down &mdash; it is the most important row in the lab.
+
+---
+
+## Step 6 &mdash; Check the assumption the pattern rests on
+
+Does the cheap model's confidence actually track whether it is right?
+
+```bash
+python3 - <<'PY'
+import json
+cases = json.load(open("data/triage-cases.json"))["cases"]
+right = [c["cheap_confidence"] for c in cases if c["cheap_answer"] == c["true_answer"]]
+wrong = [c["cheap_confidence"] for c in cases if c["cheap_answer"] != c["true_answer"]]
+print("when right: %.2f avg over %d" % (sum(right)/len(right), len(right)))
+print("when wrong: %.2f avg over %d" % (sum(wrong)/len(wrong), len(wrong)))
+PY
+```
+
+If those two numbers were equal, your gate would be a coin toss that costs money.
+
+---
+
+## Step 7 &mdash; Record
 
 One paste creates the sheet:
 

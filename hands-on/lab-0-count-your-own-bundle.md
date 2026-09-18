@@ -12,51 +12,78 @@ You will finish this lab holding **two instruments that do not agree and are not
 supposed to**: one that answers instantly and counts only what you listed, and one
 that is authoritative about money and arrives late.
 
-## Do
+**You will finish this lab holding two instruments that disagree** &mdash; one
+deterministic and instant, one authoritative about money and late. Work straight down
+this page.
 
-1. **Clone the practice repo** (skip if you already have it from the prompt module):
+---
 
-   ```bash
-   git clone https://github.com/ghewaredevopsai/meridian-freight
-   cd meridian-freight
-   ```
+## Step 1 &mdash; Get the practice repo
 
-2. **Diff two bundles.**
+Skip this if you already have it from the Prompt &amp; Context Engineering module.
 
-   ```bash
-   python3 tools/ctxmeter.py diff tools/bundles/everything.txt tools/bundles/naive.txt
-   ```
+```bash
+cd ~
+git clone https://github.com/ghewaredevopsai/meridian-freight
+cd meridian-freight
+```
 
-   Read the itemised list before the total. Which two files dominate, and is either
-   of them about how the desk prices freight?
+---
 
-3. **Watch a conversation grow.**
+## Step 2 &mdash; Diff two bundles
 
-   ```bash
-   python3 tools/ctxmeter.py turns tools/bundles/naive.txt --turns 10
-   ```
+```bash
+python3 tools/ctxmeter.py diff tools/bundles/everything.txt tools/bundles/naive.txt
+```
 
-   The cumulative column is what a ten-turn agent session sends. Compare it with the
-   total for turn 1.
+Read the **itemised list** before the total. Answer two questions for yourself:
 
-4. **Now the other instrument.** Open your GitHub billing and usage settings and find
-   today's AI credit figure.
+- which two files dominate?
+- is either of them about how the desk prices freight?
 
-   Three things can happen, and all three are findings:
+---
 
-   - You see a number. Write it down, and note what time it was last updated.
-   - You see an aggregate for the month but nothing for today.
-   - **You see nothing** &mdash; on a company seat this is common, because usage is
-     often visible only to an administrator.
+## Step 3 &mdash; Watch a conversation grow
 
-   Write down which of the three you got. If it is the third, you have just discovered
-   the constraint this whole module is designed around.
+```bash
+python3 tools/ctxmeter.py turns tools/bundles/naive.txt --turns 10
+```
 
-5. **Read `tools/calibration.md`.** Specifically the error table and the last section.
-   You are about to quote this tool's numbers; spend ninety seconds knowing how wrong
-   it is and in which direction.
+Compare what **turn 1** sends with what **turn 10** sends, and look at the cumulative
+column &mdash; that is what a ten-turn agent session costs to send.
 
-## Record
+---
+
+## Step 4 &mdash; Now the other instrument
+
+Open your **GitHub billing and usage settings** and look for today's AI credit figure.
+
+Three things can happen. **All three are findings** &mdash; write down which one you
+got:
+
+1. **You see a number.** Note it, and note when it was last updated.
+2. **You see a monthly aggregate but nothing for today.**
+3. **You see nothing at all.** Common on a company seat, where usage is often visible
+   only to an administrator.
+
+If you got (3), you have just discovered the constraint this whole module is designed
+around &mdash; and three of its five labs need no credit visibility whatsoever.
+
+---
+
+## Step 5 &mdash; Read the calibration
+
+```bash
+less tools/calibration.md      # or open it in your editor
+```
+
+Read the **error table** and the **last section**. You are about to quote this tool's
+numbers all morning; spend ninety seconds knowing how wrong it is, and in which
+direction.
+
+---
+
+## Step 6 &mdash; Record
 
 One paste creates the sheet:
 

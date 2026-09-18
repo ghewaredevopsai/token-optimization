@@ -10,47 +10,86 @@ morning. Part of what it asks for is a judgement. The rest is counting.
 
 You are going to take the counting back.
 
-## Do
+**A prompt somebody runs every morning does two jobs: counting and judging.** You are
+going to take the counting back. Work straight down this page.
 
-1. **Meter the prompt as it stands.**
+---
 
-   ```bash
-   cd meridian-freight
-   python3 tools/ctxmeter.py count --absolute prompts/summarise-exceptions.md
-   python3 -m meridian exceptions > /tmp/exceptions.txt
-   python3 tools/ctxmeter.py count --absolute /tmp/exceptions.txt
-   ```
+## Step 1 &mdash; Meter the prompt as it stands
 
-   The sum of those two is roughly what one morning costs, before the answer.
+```bash
+cd ~/meridian-freight
+python3 tools/ctxmeter.py count --absolute prompts/summarise-exceptions.md
+python3 -m meridian exceptions > exceptions.txt
+python3 tools/ctxmeter.py count --absolute exceptions.txt
+```
 
-2. **Run it three times** through your assistant, with the report pasted in. Save all
-   three answers. Are the three groupings identical? Are the counts?
+The sum of those two is roughly what one morning sends, before any answer comes back.
 
-3. **Write the deterministic half.** About twenty-five lines of standard library that
-   produce the counts per exception code from the same data:
+---
 
-   ```bash
-   python3 - <<'PY'
-   from meridian import report, store, tariffs
-   rows = report.exceptions(store.load(), tariffs.load())
-   print(report.summarise(rows))
-   PY
-   ```
+## Step 2 &mdash; Run it three times
 
-   That already exists &mdash; `report.summarise()`. The lab is noticing that it
-   exists, and that a model was being paid to do it anyway. Extend it if you like:
-   group by destination depot as well, and print it as a table.
+Paste `prompts/summarise-exceptions.md` into a **new chat**, with the contents of
+`exceptions.txt` underneath. Do that **three times, in three new chats**.
 
-4. **Run your Python three times.** Compare the three outputs.
+Save all three replies, then answer two questions:
 
-5. **Decide what is left for the model.** Counting is settled. What remains is *what
-   to do about each group* &mdash; a judgement that depends on the day, the depot and
-   who is on shift. Write a much shorter prompt that asks only for that, with the
-   counts supplied.
+- are the three **groupings** identical?
+- are the three **counts** identical?
 
-6. **Meter the new prompt.**
+---
 
-## Record
+## Step 3 &mdash; Run the deterministic version
+
+```bash
+python3 - <<'PY'
+from meridian import report, store, tariffs
+rows = report.exceptions(store.load(), tariffs.load())
+print(report.summarise(rows))
+PY
+```
+
+That function already existed in the codebase. **Somebody wrote it, and somebody else
+later wrote a prompt that duplicates it.** Noticing that is most of this lab.
+
+---
+
+## Step 4 &mdash; Run the Python three times
+
+Same command, three times. Compare the three outputs with each other.
+
+---
+
+## Step 5 &mdash; Decide what is left for the model
+
+Counting is settled. What remains is *what to do about each group* &mdash; which
+depends on the day, the depot and who is on shift.
+
+Write a much shorter prompt that asks only for that, with the counts supplied:
+
+```text
+Here are this morning's exception counts:
+  MF-01: 2   MF-02: 2   MF-03: 8   MF-04: 3   MF-05: 0   MF-06: 2
+
+Eight unrouted consignments is unusual for a Tuesday. Suggest what the duty
+supervisor should work first and why, in under 80 words. If the counts alone do
+not justify a recommendation, say so rather than guessing.
+```
+
+---
+
+## Step 6 &mdash; Meter the new prompt
+
+Save it as `prompt-short.txt`, then:
+
+```bash
+python3 tools/ctxmeter.py count --absolute prompt-short.txt
+```
+
+---
+
+## Step 7 &mdash; Record
 
 One paste creates the sheet:
 

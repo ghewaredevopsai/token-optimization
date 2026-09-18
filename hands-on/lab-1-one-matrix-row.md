@@ -9,7 +9,7 @@ Everybody in this room already has an opinion about which model to use for what.
 This lab is designed to find out whether that opinion survives contact with data
 &mdash; and the only way to find that out honestly is to **write it down first**.
 
-## Step 1 &mdash; Predict. Sixty seconds. Do this before you open anything.
+## Step 1 &mdash; Predict, before you open anything
 
 Name your team's **three commonest AI-assisted tasks**. For each, predict which
 archetype wins on *value for money*: **fast**, **default** or **reasoning**.
@@ -82,7 +82,7 @@ We revisit this when ________________________________
 The last line is not optional. A selection rule with no expiry is how a team ends up
 on last year's defaults.
 
-## Record
+## Step 6 &mdash; Record
 
 One paste creates the sheet:
 
